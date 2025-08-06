@@ -64,7 +64,7 @@ def main():
         exit(0)
 
     # Build the package (will build all binaries for the package)
-    build_cmd = f'cargo build --release --target "{args.target}" --package "{args.package}"'
+    build_cmd = f'cargo build --locked --release --target "{args.target}" --package "{args.package}"'
     print(f"Running: {build_cmd}")
     result = subprocess.run(build_cmd, shell=True)
     if result.returncode != 0:
