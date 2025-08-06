@@ -28,8 +28,6 @@ def main():
     parser.add_argument("--package", required=True, help="Package name for cargo build")
     args = parser.parse_args()
 
-    cc_bin = os.getenv(f"CC_{args.target}", "cc")
-
     dist_dir = Path("dist")
     dist_dir.mkdir(exist_ok=True)
 
@@ -64,7 +62,7 @@ def main():
         exit(0)
 
     # Build the package (will build all binaries for the package)
-    build_cmd = f'cargo build --release --target "{args.target}" --package "{args.package}"'
+    build_cmd = f'cargo build --locked --release --target "{args.target}" --package "{args.package}"'
     print(f"Running: {build_cmd}")
     result = subprocess.run(build_cmd, shell=True)
     if result.returncode != 0:
@@ -100,8 +98,6 @@ def main():
     for tool in [
         "cargo --version --verbose",
         "rustc --version --verbose",
-        "cmake --version --verbose",
-        f"{cc_bin} --version --verbose"
     ]:
         run_command(tool, append_to=build_info_path)
 
